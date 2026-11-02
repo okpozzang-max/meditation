@@ -42,5 +42,5 @@ class SessionPreferences(private val dataStore: DataStore<Preferences>) {
 }
 
 private val Context.sessionPreferencesDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "session.preferences_pb",
+    name = "session",
 )

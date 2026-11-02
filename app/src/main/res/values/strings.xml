@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">아침 명상</string>
+    <string name="session_notification_channel">명상 세션</string>
+    <string name="pause">일시정지</string>
+    <string name="resume">계속하기</string>
+    <string name="mute_sound">소리 끄기</string>
+    <string name="enable_sound">소리 켜기</string>
+    <string name="finish">마치기</string>
+</resources>
