@@ -4,6 +4,7 @@
 local.properties
 .idea/
 *.iml
+.toolchain/
 
 # Superpowers scratch
 .superpowers/
