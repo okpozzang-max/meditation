@@ -70,3 +70,12 @@ Fresh-context 코드 리뷰에서 Critical/Important/Minor 결함은 보고되�
 - Android 미디어 세션 대신 앱이 제어하는 foreground service와 자체 알림을 선택했다. 이에 따라 알림/앱 화면 조작은 제공하지만 Bluetooth 미디어 버튼 같은 미디어 세션 연동은 없다.
 - DataStore Android Context 생명주기와 실제 기기 서비스 동작은 instrumentation으로 검증되지 않았다.
 - 서비스 instrumentation 테스트는 구현 이후 작성됐고 기기 부재로 compile-only 상태다. 다음 세션에서 기기 검증 우선.
+
+## 2026-11-03 Galaxy 기기 검증 이어서
+
+- 연결 기기: Samsung Galaxy SM-S711N, Android 16 (API 36), adb serial `R5CX1273BLA`.
+- 화면을 켜고 잠금 해제한 상태로 `:app:connectedDebugAndroidTest` 전체 실행: 12개 통과, 실패 0, 오류 0 (AppLaunch 1, 서비스 2, Home 5, Session 4).
+- 서비스 테스트 간 foreground service 정리 경쟁을 줄이도록 `@After`에서 Idle 상태 및 서비스 종료를 기다리고, 상태 대기 timeout에 단계/현재 상태를 기록하도록 보강.
+- APK 설치 성공, 앱 런처 실행 성공, 첫 화면 렌더링 확인. 스크린샷: `app/build/outputs/androidTest-results/connected/debug/meditation-home.png` (build 산출물, Git 제외).
+- `:app:testDebugUnitTest :app:assembleDebug` 성공 (모두 up-to-date).
+- 남은 기기 수동 확인: 명상 시작 후 실제 소리/무음/일시정지/재개/종료 조작, 화면을 잠근 동안 소리와 타이머 지속 여부, 알림에서 조작 확인. 자동 테스트만으로 잠금 화면 및 실제 청취 동작까지 보증하지 않음.
