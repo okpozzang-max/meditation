@@ -79,3 +79,11 @@ Fresh-context 코드 리뷰에서 Critical/Important/Minor 결함은 보고되�
 - APK 설치 성공, 앱 런처 실행 성공, 첫 화면 렌더링 확인. 스크린샷: `app/build/outputs/androidTest-results/connected/debug/meditation-home.png` (build 산출물, Git 제외).
 - `:app:testDebugUnitTest :app:assembleDebug` 성공 (모두 up-to-date).
 - 남은 기기 수동 확인: 명상 시작 후 실제 소리/무음/일시정지/재개/종료 조작, 화면을 잠근 동안 소리와 타이머 지속 여부, 알림에서 조작 확인. 자동 테스트만으로 잠금 화면 및 실제 청취 동작까지 보증하지 않음.
+## 2026-11-03 사용자 음원 교체
+
+- 사용자가 `음원/`에 내려받은 Freesound CC0 음원 네 개로 앱 리소스를 교체했다. 원본 WAV 파일은 입력으로만 읽었고 그대로 보존했다.
+- 숲: 2:57.835, 비: 3:35.821, 싱잉볼: 1:00, 파도: 원본 11:59.77에서 앞부분 299.8초 사용. 앱은 기존 ExoPlayer `REPEAT_MODE_ONE`으로 세션 종료까지 반복한다.
+- 앱 리소스 네 개는 stereo MP3 192 kbps, 합계 약 17.25 MiB. 싱잉볼 원본은 22.05kHz라 44.1kHz로 리샘플링하여 192kbps 출력. 리샘플링이 원본보다 더 많은 음향 정보를 만들지는 않는다.
+- `app/src/main/assets/audio-sources.md`에 음원명, 작성자, Freesound 주소, CC0, 변환 정보를 기록했다. 작업 계획: `docs/superpowers/plans/2026-11-03-morning-meditation-audio-refresh.md`.
+- 검증: ffprobe에서 모든 리소스가 MP3/스테레오/192kbps로 확인됐고 파도 299.8초. aapt에서 네 raw 리소스 식별, `:app:assembleDebug` 성공, APK 34,903,529바이트. 음원 교체 후 `:app:testDebugUnitTest :app:connectedDebugAndroidTest` 성공, 연결 기기 테스트 12개 통과·실패 0. Samsung Galaxy SM-S711N에 APK 재설치와 런처 실행까지 확인.
+- 남은 청취 확인: 네 소리의 실제 음색과 반복 경계, 특히 싱잉볼 잔향이 사용자가 원한 약 20초인지, 파도 약 5분 반복이 거슬리지 않는지 기기에서 직접 들어 확인한다. 긴 세션을 기다리는 물리 반복 테스트는 아직 하지 않았다.
